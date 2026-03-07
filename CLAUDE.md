@@ -1,108 +1,110 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Hackathon Project: [Your Project Name]
-
-
-## Project Structure
-
-- `/frontend` — Next.js app
-- `/backend` — FastAPI + LangGraph agents
-- `/shared` — Shared types/schemas
-
-## Development Setup
-
-The `.gitignore` is configured for Python with support for common tooling: `pip`/`uv`/`poetry`/`pdm`/`pipenv`, Django, Flask, pytest, mypy, ruff, and Jupyter notebooks. Set up a virtual environment before installing dependencies:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt   # once a requirements file exists
-```
-
-## Commands
-
-Commands will be established as the project develops. Common patterns to follow once files are present:
-
-- **Lint:** `ruff check .` (ruff is configured in `.gitignore`)
-- **Type check:** `mypy .`
-- **Tests:** `pytest` (run a single test with `pytest path/to/test_file.py::test_name`)
-- **Frontend dev**: `cd frontend && npm run dev`
-- **Backend dev**: `cd backend && uvicorn main:app --reload`
-- **Tests**: `cd backend && pytest`
-
-## Tech Stack
-
-- Frontend: Next.js 15 (App Router) + TypeScript + Tailwind CSS
-- Backend: Python 3.12 + FastAPI
-- AI/Agents: LangGraph + LangChain
-- Vector DB: Pinecone / ChromaDB (for RAG)
-- Database: Supabase (PostgreSQL)
-- Deployment: Vercel (frontend) + Railway (backend)
-
-## Rules
-
-- Use TypeScript strict mode in frontend
-- Use Pydantic v2 models for all API schemas
-- All agents must have clear input/output schemas
-- Write tests for all agent nodes
-- No console.logs in production code
-- Commit messages: conventional commits format
-
-npm install framer-motion
-```
-
-And Tailwind itself isn't bland — it's the utility layer underneath. Magic UI just gives you pre-built animated components (hero sections, cards with shimmer effects, animated borders, etc.) so you don't have to build those from scratch during a hackathon. You'll still be writing Tailwind classes for layout and spacing.
-
-One more tip: when you're prompting Claude to build UI, reference Magic UI explicitly so it pulls from the MCP instead of defaulting to plain Tailwind:
-```
-"Build the landing page using Magic UI components for the hero 
-section and feature cards. Use animated-beam for the agent 
-visualization and shimmer-button for the CTA."
-
-
 # CyberCypher 5.0 — Agentic AI for Autonomous Network Operations
 
-## What We're Building
-An agentic AI system that acts as an autonomous network operations 
-layer for an ISP. Core loop: Observe → Reason → Decide → Act → Learn.
+## Project Overview
+Agentic AI system for autonomous ISP network operations with observe→reason→decide→act→learn loop.
+An "AI Network Guardian" that continuously monitors a simulated ISP, detects anomalies, reasons about root causes using causal inference, verifies safety of actions mathematically, and learns from outcomes.
+
+## USING pgmpy INSTEAD OF causalnex DUE TO PYTHON VERSION INCOMAPTIBILITY ISSUES.
 
 ## Tech Stack
-- Backend: Python 3.12 + FastAPI
-- Agent Framework: LangGraph (StateGraph with conditional edges)
-- LLM: Claude API via LangChain
-- Simulated Telemetry: Python generators producing realistic network signals
-- Vector DB: ChromaDB (for RAG over network runbooks/documentation)
-- Frontend: Next.js + TypeScript + Tailwind + Magic UI
-- Database: SQLite (lightweight, no infra needed for hackathon)
+- **Backend:** Python 3.11+, FastAPI, WebSockets
+- **Agent Framework:** LangGraph (stateful agent orchestration with observe→reason→decide→act→learn graph)
+- **LLM:** OpenAI GPT-4o (via OPENAI_API_KEY in .env) — used for reasoning, hypothesis formation, debate agents, and explanations
+- **Causal Inference:** causalnex (NOTEARS algorithm), networkx (topology graph)
+- **Safety Verification:** z3-solver (formal proof that actions are safe before execution)
+- **Anomaly Detection:** scikit-learn IsolationForest, EWMA statistical detector, threshold-based rules
+- **Traffic Forecasting:** LSTM (PyTorch) for predicting congestion before it happens, Prophet as fallback
+- **Data:** Synthetic ISP telemetry generated with numpy + pandas (labeled anomaly scenarios)
+- **Frontend:** React + Vite + Tailwind CSS + Recharts + D3.js (force-directed topology graph)
+- **Database:** SQLite (audit log, action history), FAISS (RAG vector store)
+- **RAG:** LangChain + OpenAI embeddings + FAISS for network runbook retrieval
+- **Streaming:** WebSockets for real-time telemetry and agent event streaming to UI
+
+## Key Differentiators (What Makes Us Win)
+1. **Causal Counterfactual Digital Twin** — causalnex + PC/NOTEARS algorithm. Agent reasons causally ("root cause of latency on link X is congestion on upstream link Y triggered by BGP change 12 min ago"). Runs counterfactual simulations before acting ("if I reroute A→B, what happens to C, D, E?").
+2. **Formal Safety Verification with Z3** — Every autonomous action is mathematically proven safe against invariants (no link >85% utilization after reroute, rollback path must exist, blast radius caps). "Provable safety guarantees."
+3. **Multi-Agent Adversarial Debate** — High-risk decisions trigger a panel: ReliabilityAgent vs PerformanceAgent vs CostSLAAgent, judged by a JudgeAgent. Debate transcript = explainability layer.
+4. **LSTM Traffic Forecasting** — Predicts congestion 10-30 minutes ahead so the agent can act proactively, not reactively. Trained on synthetic diurnal traffic patterns.
+5. **Graph-Based Reasoning** — Network topology as a graph (NetworkX). Graph analytics for root cause analysis — anomaly propagation scoring across topology neighbors.
 
 ## Architecture
-- /backend — FastAPI + LangGraph agent system
-  - /agents — Individual agent nodes (observer, reasoner, decider, actor, learner)
-  - /simulation — Network telemetry simulator
-  - /models — Pydantic schemas for all data
-  - /tools — Agent tools (reroute traffic, rate limit, rollback, escalate)
-- /frontend — Dashboard showing agent reasoning and network state
-- /data — Sample telemetry data, runbooks for RAG
-
-## Key Constraints
-- Every agent action must be logged with reasoning (explainability)
-- Define clear autonomy boundaries: auto-act vs human-approval-required
-- Agent must handle partial observability (incomplete/noisy data)
-- All agent nodes must have typed input/output schemas
-- Safety guardrails: blast radius checks before any action
-
-## Commands
-- Backend: cd backend && uvicorn main:app --reload
-- Frontend: cd frontend && npm run dev
-- Tests: cd backend && pytest
+```
+src/
+  simulator/           — Network topology + synthetic telemetry + anomaly injection + live engine
+    topology.py        — NetworkX ISP topology (12 nodes: core, agg, edge, peering)
+    telemetry.py       — Synthetic metric generation (diurnal patterns + noise)
+    anomaly_injector.py — Labeled failure scenarios (congestion cascade, DDoS, fiber cut, etc.)
+    engine.py          — Real-time simulation engine (async, configurable speed)
+  agents/              — LangGraph agent orchestration
+    orchestrator.py    — Main LangGraph StateGraph (observe→reason→decide→act→learn)
+    observer.py        — Telemetry ingestion + multi-method anomaly detection
+    reasoner.py        — Causal inference + LLM hypothesis formation
+    decider.py         — Decision logic + utility scoring + Z3 verification gate
+    actor.py           — Action execution with rollback tokens + auto-rollback monitoring
+    learner.py         — Outcome tracking + threshold adjustment + training data export
+    debate.py          — Multi-agent adversarial debate (3 specialists + judge)
+  models/              — ML models
+    anomaly_detection.py — IsolationForest + EWMA + threshold detectors
+    forecasting.py     — LSTM traffic forecasting model (PyTorch) + Prophet fallback
+    schemas.py         — Pydantic models for all data types
+  causal/              — Causal graph + counterfactual engine
+    causal_engine.py   — causalnex NOTEARS, root cause analysis, do-calculus counterfactuals
+  safety/              — Z3 safety constraints
+    z3_verifier.py     — Formal verification of actions against safety invariants
+  api/                 — FastAPI endpoints + WebSocket handlers
+    main.py            — REST + WebSocket API, CORS, startup initialization
+    routes.py          — Endpoint definitions
+  rag/                 — RAG for network runbooks
+    knowledge_base.py  — FAISS vector store + OpenAI embeddings + runbook documents
+  ui/                  — React frontend (Vite)
+    src/
+      App.jsx          — Main dashboard layout
+      components/
+        TopologyGraph.jsx    — D3 force-directed network visualization
+        TelemetryCharts.jsx  — Recharts real-time metric charts
+        AgentFeed.jsx        — Live agent activity log
+        DebateViewer.jsx     — Multi-agent debate transcript display
+        CausalGraph.jsx      — Causal relationship visualization
+        ControlPanel.jsx     — Start/stop/inject/kill-switch controls
+        MetricsPanel.jsx     — MTTD, MTTM, precision, recall, F1
+  utils/               — Shared utilities, logging config
+  data/                — Generated datasets + topology definitions
+  evaluation/          — Evaluation scripts (precision, recall, F1, MTTD, MTTM)
 ```
 
-Drop that in your project root, adjust the tech choices if needed, then fire up Claude Code and start with:
+## Environment Variables
 ```
-/plan "Scaffold the full project structure for an agentic AI network 
-operations system with the observe-reason-decide-act-learn loop using 
-LangGraph, FastAPI backend, and Next.js frontend"
+OPENAI_API_KEY=<your-openai-key>
+```
 
+## Agent Loop Architecture (LangGraph)
+```
+observe ──→ reason ──→ decide ──┬──→ verify ──→ act ──→ learn ──→ observe
+                                │                              (loop)
+                                └──→ debate ──→ verify
+                                  (if high risk)
+```
 
+## Decision Policy
+- confidence < 0.6 → create ticket only (passive)
+- confidence 0.6-0.85 AND low blast radius → auto-execute with monitoring
+- confidence >= 0.85 AND Z3 verified → auto-execute
+- high blast radius OR risk >= 0.7 → require human approval OR trigger debate
+- Z3 verification fails → BLOCK action, explain which constraint violated
+
+## Autonomy Boundaries
+- **AUTOMATIC:** Rate-limit suspicious flow (<0.5% sessions affected, confidence ≥0.85), adjust TE weights
+- **AUTOMATIC_CANARY:** Reroute on single edge router for 10 min, auto-rollback if metrics worsen
+- **HUMAN_APPROVAL:** BGP changes, mass route changes, core switch restart, config affecting ≥5% traffic
+- **NEVER_AUTOMATE:** Billing systems, PII stores, regulatory routing
+
+## Rollback Policy
+All automated changes embed a rollback token. Auto-rollback triggers if key metrics worsen within 10 minutes.
+
+## Conventions
+- Type hints on all functions
+- Docstrings on all public functions
+- Pydantic models for data validation (all data flowing between agents)
+- Structured logging with loguru
+- All agent decisions logged to immutable audit trail
+- OpenAI calls use langchain ChatOpenAI wrapper
