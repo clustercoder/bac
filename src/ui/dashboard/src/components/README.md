@@ -1,6 +1,6 @@
 # src/ui/dashboard/src/components/
 
-UI component library for the CyberCypher dashboard.
+UI component library for the BAC dashboard.
 Each component maps to a distinct operational surface.
 
 ## Core Components

@@ -1,4 +1,4 @@
-"""FastAPI application — REST + WebSocket API for CyberCypher 5.0.
+"""FastAPI application — REST + WebSocket API for Ballmer Agentic Conception - BAC.
 
 Startup order:
   1. NetworkTopology
@@ -242,7 +242,7 @@ async def lifespan(app: FastAPI):  # type: ignore[type-arg]
     global _topology, _engine, _orchestrator, _rag_kb
     global _engine_task, _agent_task
 
-    logger.info("Initialising CyberCypher 5.0 …")
+    logger.info("Initialising Ballmer Agentic Conception - BAC …")
 
     # 1. Topology
     _topology = NetworkTopology()
@@ -280,7 +280,7 @@ async def lifespan(app: FastAPI):  # type: ignore[type-arg]
     # 5. Start background tasks
     _engine_task = asyncio.create_task(_engine_loop())
     _agent_task = asyncio.create_task(_agent_observation_loop())
-    logger.info("CyberCypher 5.0 ready")
+    logger.info("Ballmer Agentic Conception - BAC ready")
 
     yield
 
@@ -299,7 +299,7 @@ async def lifespan(app: FastAPI):  # type: ignore[type-arg]
 # ---------------------------------------------------------------------------
 
 app = FastAPI(
-    title="CyberCypher 5.0 API",
+    title="Ballmer Agentic Conception - BAC API",
     description="Agentic AI for Autonomous ISP Network Operations",
     version="5.0.0",
     lifespan=lifespan,
@@ -676,4 +676,4 @@ async def _handle_ws_message(ws: WebSocket, msg: dict[str, Any]) -> None:
 
 @app.get("/health")
 async def health() -> dict[str, str]:
-    return {"status": "ok", "service": "cybercypher-api"}
+    return {"status": "ok", "service": "BAC-api"}

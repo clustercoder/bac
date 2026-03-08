@@ -1,6 +1,6 @@
-# CyberCypher 5.0
+# Ballmer Agentic Conception - BAC
 
-CyberCypher is an agentic AI system for autonomous ISP network operations.
+BAC is an agentic AI system for autonomous ISP network operations.
 It continuously monitors a simulated network, detects anomalies, reasons about root causes, verifies action safety, executes mitigations, and learns from outcomes.
 
 This README is written for both technical reviewers and first-time contributors.
@@ -14,7 +14,7 @@ ISP operations teams usually handle incidents in a reactive way:
 - apply risky fixes without formal guarantees
 - repeat similar mistakes
 
-CyberCypher addresses this with a closed loop:
+BAC addresses this with a closed loop:
 - **Observe** telemetry in real time
 - **Reason** about likely root cause (causal + LLM)
 - **Decide** candidate interventions by utility

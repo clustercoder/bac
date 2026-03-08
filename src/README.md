@@ -1,7 +1,7 @@
 # src/
 
 This folder contains the full backend and frontend application logic.
-Think of it as the "operating system" of CyberCypher.
+Think of it as the "operating system" of BAC.
 
 ## Folder Purpose
 

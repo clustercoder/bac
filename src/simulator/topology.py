@@ -269,7 +269,7 @@ class NetworkTopology:
             for ntype, color in _NODE_COLORS.items()
         ]
         ax.legend(handles=legend, loc="upper right", fontsize=9)
-        ax.set_title("ISP Network Topology — CyberCypher 5.0", fontsize=14, fontweight="bold")
+        ax.set_title("ISP Network Topology — Ballmer Agentic Conception - BAC", fontsize=14, fontweight="bold")
         ax.axis("off")
 
         plt.tight_layout()

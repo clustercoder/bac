@@ -1,6 +1,6 @@
 # src/ui/dashboard/
 
-This is the Vite + React operator dashboard for CyberCypher.
+This is the Vite + React operator dashboard for BAC.
 It is designed to show network health and autonomous agent decisions in real time.
 
 ## Files (Top Level)

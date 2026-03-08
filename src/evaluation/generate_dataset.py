@@ -1,6 +1,6 @@
 """src/evaluation/generate_dataset.py
 
-Generates a comprehensive labeled dataset for evaluating the CyberCypher agent.
+Generates a comprehensive labeled dataset for evaluating the BAC agent.
 
 Run:
     python -m src.evaluation.generate_dataset
@@ -162,7 +162,7 @@ def _print_summary(
     anomalous_ts = gt_df["is_anomaly"].sum()
 
     print("\n" + "=" * 66)
-    print("  CyberCypher 5.0 — Dataset Generation Summary")
+    print("  Ballmer Agentic Conception - BAC — Dataset Generation Summary")
     print("=" * 66)
     print(f"\n  Total timestamps     : {total_ts:,}  (1-min intervals × 24 h)")
     print(f"  Total data rows      : {anomaly_df.shape[0]:,}  (timestamps × entities)")

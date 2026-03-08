@@ -1,6 +1,6 @@
 """src/evaluation/evaluate.py
 
-Evaluates the CyberCypher agent's anomaly detection and decision-making performance.
+Evaluates the BAC agent's anomaly detection and decision-making performance.
 
 Run:
     python -m src.evaluation.evaluate
@@ -501,7 +501,7 @@ def _format_report_text(report: dict[str, Any]) -> str:
     lines: list[str] = [
         "",
         "=" * 70,
-        "  CyberCypher 5.0 — Evaluation Report",
+        "  Ballmer Agentic Conception - BAC — Evaluation Report",
         f"  Generated: {report['generated_at']}",
         "=" * 70,
         "",
@@ -595,7 +595,7 @@ def _save_report(report: dict[str, Any], report_text: str) -> None:
 
 
 def evaluate() -> None:
-    print("\nCyberCypher 5.0 — Evaluation Pipeline")
+    print("\nBallmer Agentic Conception - BAC — Evaluation Pipeline")
     print("=" * 42)
 
     # ── Load data ──────────────────────────────────────────────────────────

@@ -1,4 +1,4 @@
-"""LLM fine-tuning utilities for the CyberCypher Network Guardian.
+"""LLM fine-tuning utilities for the BAC Network Guardian.
 
 Modules
 -------

@@ -1,4 +1,4 @@
-"""demo.py — CyberCypher 5.0 Live Hackathon Demonstration.
+"""demo.py — Ballmer Agentic Conception - BAC Live Hackathon Demonstration.
 
 Run:
     python demo.py
@@ -339,7 +339,7 @@ def _phase6_metrics() -> None:
     """Display agent performance evaluation table."""
     console.print("\n[bold cyan]Phase 6: Evaluation Metrics[/bold cyan]")
 
-    t = Table(title="Agent Performance — CyberCypher 5.0", show_header=True, header_style="bold cyan")
+    t = Table(title="Agent Performance — Ballmer Agentic Conception - BAC", show_header=True, header_style="bold cyan")
     t.add_column("Metric", style="cyan", min_width=36)
     t.add_column("Value", style="bold", justify="right")
     t.add_column("Rating", justify="center")
@@ -369,7 +369,7 @@ def _phase6_metrics() -> None:
 async def main() -> None:
     console.print()
     console.print(Panel.fit(
-        "[bold white]🧠  CyberCypher 5.0[/bold white]\n"
+        "[bold white]🧠  Ballmer Agentic Conception - BAC[/bold white]\n"
         "[dim]Agentic AI for Autonomous ISP Network Operations[/dim]\n\n"
         "[cyan]observe → reason → decide → act → learn[/cyan]",
         style="bold blue",

@@ -1,4 +1,4 @@
-"""CausalEngine — Digital Twin causal reasoning for the CyberCypher 5.0 agent.
+"""CausalEngine — Digital Twin causal reasoning for the Ballmer Agentic Conception - BAC agent.
 
 Combines structural knowledge (topology) with data-driven causal discovery to
 support root-cause analysis and counterfactual ("what if") reasoning.
@@ -674,7 +674,7 @@ class CausalEngine:
             mpatches.Patch(color="#2980b9", label="Both"),
         ]
         ax.legend(handles=legend, loc="upper right", fontsize=7)
-        ax.set_title("CyberCypher 5.0 — Causal Graph (Digital Twin)", fontsize=13, fontweight="bold")
+        ax.set_title("Ballmer Agentic Conception - BAC — Causal Graph (Digital Twin)", fontsize=13, fontweight="bold")
         ax.axis("off")
 
         plt.tight_layout()

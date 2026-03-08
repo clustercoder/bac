@@ -1,6 +1,6 @@
 # src/evaluation/
 
-This folder evaluates whether CyberCypher is effective, not just functional.
+This folder evaluates whether BAC is effective, not just functional.
 
 ## Files
 

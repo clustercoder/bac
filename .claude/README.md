@@ -10,4 +10,4 @@ This folder stores Claude-specific local configuration artifacts for the workspa
 ## Important
 
 Files here are support configuration only.
-They are not part of CyberCypher runtime control flow or data flow.
+They are not part of BAC runtime control flow or data flow.

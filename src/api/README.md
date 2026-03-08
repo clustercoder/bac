@@ -1,6 +1,6 @@
 # src/api/
 
-This folder exposes CyberCypher to external clients (UI, scripts, tools).
+This folder exposes BAC to external clients (UI, scripts, tools).
 It is the transport layer between autonomous backend logic and human operators.
 
 ## Files

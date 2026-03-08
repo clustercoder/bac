@@ -184,7 +184,7 @@ class LoRATrainer:
 
 def main() -> None:
     """CLI entry point for LoRA training."""
-    parser = argparse.ArgumentParser(description="LoRA fine-tuning for CyberCypher Network Guardian")
+    parser = argparse.ArgumentParser(description="LoRA fine-tuning for BAC Network Guardian")
     parser.add_argument("--dataset", required=True, help="Path to JSONL SFT dataset")
     parser.add_argument("--model", default=_DEFAULT_MODEL, help="Base model ID or path")
     parser.add_argument("--output", default="models/network_guardian_lora", help="Output directory")
