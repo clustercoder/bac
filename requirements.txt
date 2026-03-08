@@ -6,12 +6,13 @@ langgraph
 langchain-openai
 langchain-community
 openai
-pgmpy
 z3-solver
 networkx
 numpy
 pandas
+scipy
 scikit-learn
+tqdm
 matplotlib
 pydantic
 loguru
