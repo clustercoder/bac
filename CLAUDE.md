@@ -10,6 +10,13 @@ An "AI Network Guardian" that continuously monitors a simulated ISP, detects ano
 
 ## IMPORTANT: Use pgmpy (NOT causalnex) for causal inference — causalnex is incompatible with Python 3.11+.
 
+## Setup
+```bash
+# Python version: see .python-version (3.11+)
+cp .env.example .env          # then set OPENAI_API_KEY
+cd src/ui/dashboard && cp .env.example .env  # set VITE_API_URL
+```
+
 ## Commands
 
 ### Backend
@@ -24,6 +31,9 @@ uvicorn src.api.main:app --reload --port 8000
 
 # Run the CLI demo (hackathon demo, no UI needed)
 python demo.py
+
+# Train RL traffic engineering model on synthetic data
+python train_rl_synthetic.py
 
 # Generate evaluation dataset
 python -m src.evaluation.generate_dataset

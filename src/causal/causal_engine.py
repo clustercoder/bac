@@ -9,13 +9,9 @@ from collections import defaultdict
 from itertools import combinations
 from typing import Any, Optional
 
-import matplotlib
-import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import pandas as pd
-
-matplotlib.use("Agg")
 
 from src.models.schemas import Anomaly, Hypothesis
 from src.simulator.topology import NetworkTopology
@@ -625,6 +621,13 @@ class CausalEngine:
         Edge widths are proportional to causal_strength.
         Colors: anomalous=red, root_cause=orange, normal=green.
         """
+        # Lazy import to avoid Matplotlib startup cost in API/server runtimes
+        # that never call visualization.
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        import matplotlib.patches as mpatches
+
         g = self.combined_graph
         if g.number_of_nodes() == 0:
             print("  [CausalEngine] Graph is empty — nothing to visualize.")
@@ -664,7 +667,6 @@ class CausalEngine:
                                arrows=True, arrowsize=10,
                                connectionstyle="arc3,rad=0.1")
 
-        import matplotlib.patches as mpatches
         legend = [
             mpatches.Patch(color=_NODE_VIZ_COLORS["root_cause"], label="Root cause candidate"),
             mpatches.Patch(color=_NODE_VIZ_COLORS["anomalous"],  label="Anomalous"),
