@@ -25,6 +25,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # Ensure plotting/cache libraries never block startup in container runtimes.
+# MPLBACKEND and MPLCONFIGDIR are injected by Render env vars (render.yaml).
+# These setdefault calls are fallbacks for local dev.
 os.environ.setdefault("MPLBACKEND", "Agg")
 os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib")
 os.environ.setdefault("XDG_CACHE_HOME", "/tmp/.cache")

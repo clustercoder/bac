@@ -13,16 +13,9 @@ from src.models.anomaly_detection import (
     IsolationForestDetector,
     ThresholdDetector,
 )
-from src.models.forecasting import FallbackForecaster, LSTMForecaster
 from src.models.schemas import Anomaly
 from src.simulator.topology import NetworkTopology
 from src.utils.logger import logger
-
-try:
-    from src.models.gnn_anomaly import GNNAnomalyDetector
-    _GNN_AVAILABLE = True
-except ImportError:
-    _GNN_AVAILABLE = False
 
 Severity = Literal["low", "medium", "high", "critical"]
 
@@ -59,6 +52,12 @@ _FORECAST_THRESHOLDS: dict[str, float] = {
 _REQUIRED_BASELINE_COLUMNS: set[str] = {"timestamp", "entity_id", "entity_type"}
 
 
+def _load_forecasting():
+    """Lazy import of torch-dependent forecasting classes to avoid blocking startup."""
+    from src.models.forecasting import FallbackForecaster, LSTMForecaster  # noqa: PLC0415
+    return FallbackForecaster, LSTMForecaster
+
+
 class ObserverAgent:
     """Telemetry observer that performs ensemble detection and proactive forecasting."""
 
@@ -68,6 +67,7 @@ class ObserverAgent:
         baselines: dict[str, dict[str, float]],
     ) -> None:
         """Initialize detector ensemble, forecasting state, and anomaly memory."""
+        FallbackForecaster, LSTMForecaster = _load_forecasting()
         self.topology = topology
         self.baselines = baselines
 
@@ -81,15 +81,17 @@ class ObserverAgent:
             [self.threshold_detector, self.ewma_detect, self.isolation_forest_detector]
         )
 
-        # Optional GNN anomaly detector (requires torch-geometric).
-        self.gnn_detector: GNNAnomalyDetector | None = None
-        if _GNN_AVAILABLE:
-            try:
-                self.gnn_detector = GNNAnomalyDetector(topology=topology)
-                logger.info("GNNAnomalyDetector initialized successfully.")
-            except Exception as exc:
-                logger.warning("GNNAnomalyDetector init failed, skipping. error={}", exc)
-                self.gnn_detector = None
+        # Optional GNN anomaly detector (requires torch-geometric) — lazy import.
+        self.gnn_detector = None
+        try:
+            from src.models.gnn_anomaly import GNNAnomalyDetector  # noqa: PLC0415
+            self.gnn_detector = GNNAnomalyDetector(topology=topology)
+            logger.info("GNNAnomalyDetector initialized successfully.")
+        except ImportError:
+            pass
+        except Exception as exc:
+            logger.warning("GNNAnomalyDetector init failed, skipping. error={}", exc)
+            self.gnn_detector = None
 
         # 60 x 1-minute snapshots.
         self.history: deque[dict[str, Any]] = deque(maxlen=60)
@@ -341,6 +343,7 @@ class ObserverAgent:
                 self.ewma_ingest.update(ewma_key, numeric)
 
     def _init_series_forecasters(self, baseline_df: pd.DataFrame) -> None:
+        FallbackForecaster, LSTMForecaster = _load_forecasting()
         self._series_forecasters.clear()
         self._series_metadata.clear()
 
@@ -370,7 +373,8 @@ class ObserverAgent:
 
     def _train_lstm_for_series(
         self, series: np.ndarray, entity_id: str
-    ) -> LSTMForecaster | FallbackForecaster:
+    ) -> "LSTMForecaster | FallbackForecaster":
+        FallbackForecaster, LSTMForecaster = _load_forecasting()
         seq_length = 30
         horizon = 10
         if len(series) < seq_length + horizon:
@@ -442,6 +446,7 @@ class ObserverAgent:
         }
 
     def _detect_predicted_anomalies(self) -> list[Anomaly]:
+        FallbackForecaster, LSTMForecaster = _load_forecasting()
         if not self.history:
             return []
 

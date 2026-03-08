@@ -2,12 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-import matplotlib
-import matplotlib.patches as mpatches
-import matplotlib.pyplot as plt
 import networkx as nx
-
-matplotlib.use("Agg")
 
 # ---------------------------------------------------------------------------
 # Node definitions
@@ -233,6 +228,11 @@ class NetworkTopology:
     # ------------------------------------------------------------------
 
     def visualize(self, filename: str = "topology.png") -> None:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.patches as mpatches
+        import matplotlib.pyplot as plt
+
         fig, ax = plt.subplots(figsize=(16, 10))
 
         pos = {
